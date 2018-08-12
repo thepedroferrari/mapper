@@ -1,0 +1,21 @@
+{
+    "env": {
+        "browser": true,
+        "jest/globals": true
+    },
+    "extends": [
+        "airbnb-base",
+        "plugin:flowtype/recommended"
+    ],
+    "plugins": [
+      "flowtype",
+      "jest"
+    ],
+    "rules": {
+        "arrow-parens": ["error", "always"],
+        "indent": ["error", 4, { "SwitchCase": 1 }],
+        "max-len": ["error", 120, 2, {
+            "ignoreComments": true
+        }]
+    }
+}

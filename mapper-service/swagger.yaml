@@ -1,0 +1,135 @@
+swagger: "2.0"
+info:
+  description: "This is the Mapper Service. It is a service for managing mappers and their mappings."
+  version: "1.0.0"
+  title: "Mapper Service"
+basePath: "/"
+tags:
+- name: "mappers"
+  description: "Everything about mappers"
+- name: "mappings"
+  description: "Everything about the mappings of mappers"
+schemes:
+- "http"
+paths:
+  /mappers:
+    get:
+      tags:
+      - "mappers"
+      summary: "Get the existing mappers"
+      description: ""
+      operationId: "getMappers"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "An array of the existing mappers"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Mapper"
+  /mappers/{mapperId}/mappings:
+    parameters:
+    - name: "mapperId"
+      in: "path"
+      description: "Id of the mapper on which to set the mapping"
+      required: true
+      type: "string"
+    get:
+      tags:
+        - "mappings"
+      summary: "Get the current mappings of a mapper"
+      description: ""
+      operationId: "getMappings"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "An array of the existing mappings for the given mapper"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Mapping"
+        404:
+          description: "The mapper could not be found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /mappers/{mapperId}/mappings/{to}:
+    parameters:
+    - name: "mapperId"
+      in: "path"
+      description: "Id of the mapper on which to set the mapping"
+      required: true
+      type: "string"
+    - name: "to"
+      in: "path"
+      description: "Hyphen-separated path to the output format's property to be mapped. Eg. the nested property \"milkyWay.sun.earth\" would be references as \"milkyWay-sun-earth\""
+      required: true
+      type: "string"
+    put:
+      tags:
+        - "mappings"
+      summary: "Set the mapping to the given property"
+      description: ""
+      operationId: "setMapping"
+      produces:
+      - "application/json"
+      responses:
+        204:
+          description: "The mapping was successfully set"
+        404:
+          description: "The mapper or output format's property could not be found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        422:
+          description: "The input format's property could not be found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      tags:
+        - "mappings"
+      summary: "Remove the mapping to the given property"
+      description: ""
+      operationId: "removeMapping"
+      produces:
+      - "application/json"
+      responses:
+        204:
+          description: "The mapping was successfully removed"
+        404:
+          description: "The mapper or output format's property could not be found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+definitions:
+  Schema:
+    type: "object"
+    additionalProperties:
+      allOf:
+        - $ref: "#/definitions/Schema"
+        - type: "string"
+  Mapper:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        description: "The mapper's unique id"
+      inputFormat:
+        $ref: "#/definitions/Schema"
+      outputFormat:
+        $ref: "#/definitions/Schema"
+  Mapping:
+    type: "object"
+    properties:
+      inputFormat:
+        type: "string"
+        description: "Dot-separated path to the input property"
+        example: "milkyWay.sun.earth"
+      outputFormat:
+        type: "string"
+        description: "Dot-separated path to the output property"
+        example: "planet"
+  ErrorResponse:
+    type: "object"
+    properties:
+      error:
+        type: "string"

@@ -1,0 +1,37 @@
+{
+  "name": "mappings-service",
+  "version": "1.0.0",
+  "description": "A RESTful service for managing mappings.",
+  "main": "src/app.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3"
+  },
+  "scripts": {
+    "start": "babel-node src/app.js",
+    "eslint": "eslint src/",
+    "flow": "flow check",
+    "test": "jest --forceExit",
+    "verify": "yarn eslint && flow && yarn test",
+    "build": "yarn verify && babel src/ --out-dir dist/",
+    "clean": "rm -rf node_modules && rm -rf dist/",
+    "serve": "node dist/app.js"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.6",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "eslint": "^5.1.0",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-flowtype": "^2.50.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jest": "^21.18.0",
+    "flow-bin": "^0.76.0",
+    "jest": "^23.4.1"
+  }
+}
