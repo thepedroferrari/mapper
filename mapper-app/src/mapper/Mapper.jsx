@@ -15,12 +15,13 @@ import OutputFormat from '../components/OutputFormat'
 
 
 class Mapper extends Component {
-
-  componentWillMount() {
-    this.setState( { input: 'null' })
-    this.setState( { output: null })
-  }
-
+  constructor() {
+		super();
+		this.state = {
+      input: null,
+      output: null
+		}
+	}
 
   render() {
     // ES6 Destructuring
@@ -34,16 +35,14 @@ class Mapper extends Component {
 
     const handleSelectChange = (e) => {
       const vehicle = e.target.value;
-      Object.values(data).forEach(selectedVehicle => {
-        if (selectedVehicle.id === vehicle) {
-          const input = selectedVehicle.inputFormat
-          const output = selectedVehicle.outputFormat
-          this.setState( { input } )
-          this.setState( { output } )
-        }
-      })
 
-      this.setState( { vehicle } )
+      const selectedVehicle = Object.values(data).find(dropDownVehicle => dropDownVehicle.id === vehicle)
+      if (selectedVehicle.id === vehicle) {
+        const input = selectedVehicle.inputFormat
+        const output = selectedVehicle.outputFormat
+        this.setState( { input, output, vehicle } )
+      }
+
     }
     return(
     <React.Fragment>

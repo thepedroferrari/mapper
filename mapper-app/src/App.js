@@ -6,10 +6,6 @@ class App extends Component {
 	constructor() {
 		super();
 
-		const data = fetch('http://localhost:3001/mappers/')
-		.then(response => response.json())
-		.then(data => this.setState({ data }))
-
 		this.state = {
 			cor: 1,
 			inputFormat: {},
@@ -19,9 +15,14 @@ class App extends Component {
 					this.setState(this.state.cor + 1);
 				}, 10000);
 			},
-			data: data,
+			data: '',
 		}
+
+		fetch('http://localhost:3001/mappers/')
+		.then(response => response.json())
+		.then(data => this.setState({ data }))
 	}
+
 
 
 	addMapping = (mapping) => {
